@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1600" style="background: #f8f9fa;">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2c3e50" />
+    </marker>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+    
+    <!-- Gradient for heads -->
+    <linearGradient id="head1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c0392b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="head2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="head3Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="head4Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f39c12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d68910;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#2c3e50" font-family="Arial, sans-serif">
+    Multi-Head Attention Mechanism
+  </text>
+  <text x="700" y="70" font-size="16" text-anchor="middle" fill="#7f8c8d" font-family="Arial, sans-serif">
+    h parallel attention heads with independent parameters
+  </text>
+  
+  <!-- Input -->
+  <rect x="550" y="100" width="300" height="80" fill="#34495e" stroke="#2c3e50" stroke-width="3" rx="5" filter="url(#shadow)"/>
+  <text x="700" y="130" font-size="20" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Input X</text>
+  <text x="700" y="158" font-size="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model)</text>
+  
+  <!-- Arrow splitting to heads -->
+  <line x1="700" y1="180" x2="700" y2="230" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Split indicator -->
+  <rect x="600" y="230" width="200" height="50" fill="#95a5a6" stroke="#7f8c8d" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="700" y="250" font-size="14" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Split into h heads</text>
+  <text x="700" y="270" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(typically h = 8 or 16)</text>
+  
+  <!-- Arrows to individual heads -->
+  <line x1="700" y1="280" x2="700" y2="320" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="700" y1="320" x2="200" y2="350" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="700" y1="320" x2="500" y2="350" stroke="#3498db" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="700" y1="320" x2="900" y2="350" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="700" y1="320" x2="1200" y2="350" stroke="#f39c12" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Head 1 -->
+  <g transform="translate(0, 350)">
+    <rect x="50" y="0" width="300" height="650" fill="url(#head1Grad)" stroke="#c0392b" stroke-width="3" rx="8" opacity="0.15"/>
+    <text x="200" y="25" font-size="16" font-weight="bold" text-anchor="middle" fill="#c0392b" font-family="Arial, sans-serif">Head 1</text>
+    
+    <!-- Q projection -->
+    <rect x="70" y="40" width="120" height="70" fill="#e74c3c" stroke="#c0392b" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="130" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₁ = X W¹_Q</text>
+    <text x="130" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="130" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- K projection -->
+    <rect x="210" y="40" width="120" height="70" fill="#e74c3c" stroke="#c0392b" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="270" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">K₁ = X W¹_K</text>
+    <text x="270" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="270" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- V projection (below) -->
+    <rect x="140" y="130" width="120" height="70" fill="#e74c3c" stroke="#c0392b" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="150" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">V₁ = X W¹_V</text>
+    <text x="200" y="168" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    <text x="200" y="183" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_v = d_model/h</text>
+    
+    <!-- Attention computation -->
+    <rect x="70" y="220" width="260" height="80" fill="#c0392b" stroke="#a93226" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="245" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Computation</text>
+    <text x="200" y="265" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₁K₁ᵀ / √d_k</text>
+    <text x="200" y="282" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">softmax(...) × V₁</text>
+    
+    <!-- Head output -->
+    <rect x="100" y="320" width="200" height="60" fill="#e74c3c" stroke="#c0392b" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="345" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">head₁</text>
+    <text x="200" y="365" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    
+    <line x1="200" y1="380" x2="200" y2="630" stroke="#c0392b" stroke-width="3"/>
+  </g>
+  
+  <!-- Head 2 -->
+  <g transform="translate(300, 350)">
+    <rect x="50" y="0" width="300" height="650" fill="url(#head2Grad)" stroke="#2980b9" stroke-width="3" rx="8" opacity="0.15"/>
+    <text x="200" y="25" font-size="16" font-weight="bold" text-anchor="middle" fill="#2980b9" font-family="Arial, sans-serif">Head 2</text>
+    
+    <!-- Q projection -->
+    <rect x="70" y="40" width="120" height="70" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="130" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₂ = X W²_Q</text>
+    <text x="130" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="130" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- K projection -->
+    <rect x="210" y="40" width="120" height="70" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="270" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">K₂ = X W²_K</text>
+    <text x="270" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="270" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- V projection -->
+    <rect x="140" y="130" width="120" height="70" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="150" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">V₂ = X W²_V</text>
+    <text x="200" y="168" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    <text x="200" y="183" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_v = d_model/h</text>
+    
+    <!-- Attention computation -->
+    <rect x="70" y="220" width="260" height="80" fill="#2980b9" stroke="#1f618d" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="245" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Computation</text>
+    <text x="200" y="265" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₂K₂ᵀ / √d_k</text>
+    <text x="200" y="282" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">softmax(...) × V₂</text>
+    
+    <!-- Head output -->
+    <rect x="100" y="320" width="200" height="60" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="345" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">head₂</text>
+    <text x="200" y="365" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    
+    <line x1="200" y1="380" x2="200" y2="630" stroke="#2980b9" stroke-width="3"/>
+  </g>
+  
+  <!-- Head 3 -->
+  <g transform="translate(600, 350)">
+    <rect x="50" y="0" width="300" height="650" fill="url(#head3Grad)" stroke="#27ae60" stroke-width="3" rx="8" opacity="0.15"/>
+    <text x="200" y="25" font-size="16" font-weight="bold" text-anchor="middle" fill="#27ae60" font-family="Arial, sans-serif">Head 3</text>
+    
+    <!-- Q projection -->
+    <rect x="70" y="40" width="120" height="70" fill="#2ecc71" stroke="#27ae60" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="130" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₃ = X W³_Q</text>
+    <text x="130" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="130" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- K projection -->
+    <rect x="210" y="40" width="120" height="70" fill="#2ecc71" stroke="#27ae60" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="270" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">K₃ = X W³_K</text>
+    <text x="270" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="270" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- V projection -->
+    <rect x="140" y="130" width="120" height="70" fill="#2ecc71" stroke="#27ae60" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="150" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">V₃ = X W³_V</text>
+    <text x="200" y="168" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    <text x="200" y="183" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_v = d_model/h</text>
+    
+    <!-- Attention computation -->
+    <rect x="70" y="220" width="260" height="80" fill="#27ae60" stroke="#1e8449" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="245" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Computation</text>
+    <text x="200" y="265" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q₃K₃ᵀ / √d_k</text>
+    <text x="200" y="282" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">softmax(...) × V₃</text>
+    
+    <!-- Head output -->
+    <rect x="100" y="320" width="200" height="60" fill="#2ecc71" stroke="#27ae60" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="345" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">head₃</text>
+    <text x="200" y="365" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    
+    <line x1="200" y1="380" x2="200" y2="630" stroke="#27ae60" stroke-width="3"/>
+  </g>
+  
+  <!-- Head h (ellipsis) -->
+  <g transform="translate(900, 350)">
+    <rect x="50" y="0" width="300" height="650" fill="url(#head4Grad)" stroke="#d68910" stroke-width="3" rx="8" opacity="0.15"/>
+    <text x="200" y="25" font-size="16" font-weight="bold" text-anchor="middle" fill="#d68910" font-family="Arial, sans-serif">Head h</text>
+    
+    <!-- Q projection -->
+    <rect x="70" y="40" width="120" height="70" fill="#f39c12" stroke="#d68910" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="130" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Qₕ = X Wʰ_Q</text>
+    <text x="130" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="130" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- K projection -->
+    <rect x="210" y="40" width="120" height="70" fill="#f39c12" stroke="#d68910" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="270" y="60" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Kₕ = X Wʰ_K</text>
+    <text x="270" y="78" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k)</text>
+    <text x="270" y="93" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_k = d_model/h</text>
+    
+    <!-- V projection -->
+    <rect x="140" y="130" width="120" height="70" fill="#f39c12" stroke="#d68910" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="150" font-size="12" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Vₕ = X Wʰ_V</text>
+    <text x="200" y="168" font-size="10" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    <text x="200" y="183" font-size="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif">d_v = d_model/h</text>
+    
+    <!-- Attention computation -->
+    <rect x="70" y="220" width="260" height="80" fill="#d68910" stroke="#b9770e" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="245" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Computation</text>
+    <text x="200" y="265" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">QₕKₕᵀ / √d_k</text>
+    <text x="200" y="282" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">softmax(...) × Vₕ</text>
+    
+    <!-- Head output -->
+    <rect x="100" y="320" width="200" height="60" fill="#f39c12" stroke="#d68910" stroke-width="2" rx="5" filter="url(#shadow)"/>
+    <text x="200" y="345" font-size="13" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">headₕ</text>
+    <text x="200" y="365" font-size="11" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+    
+    <line x1="200" y1="380" x2="200" y2="630" stroke="#d68910" stroke-width="3"/>
+  </g>
+  
+  <!-- Dots between heads indicating more -->
+  <circle cx="750" cy="650" r="6" fill="#7f8c8d"/>
+  <circle cx="770" cy="650" r="6" fill="#7f8c8d"/>
+  <circle cx="790" cy="650" r="6" fill="#7f8c8d"/>
+  
+  <!-- Arrows pointing to concatenation -->
+  <line x1="200" y1="980" x2="500" y2="1080" stroke="#c0392b" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="500" y1="980" x2="600" y2="1080" stroke="#2980b9" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="800" y1="980" x2="700" y2="1080" stroke="#27ae60" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="1100" y1="980" x2="800" y2="1080" stroke="#d68910" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Concatenation -->
+  <rect x="350" y="1080" width="700" height="90" fill="#8e44ad" stroke="#6c3483" stroke-width="3" rx="5" filter="url(#shadow)"/>
+  <text x="700" y="1110" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Concatenate All Heads</text>
+  <text x="700" y="1135" font-size="14" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Concat(head₁, head₂, head₃, ..., headₕ)</text>
+  <text x="700" y="1158" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × (h × d_v)) = (seq_len × d_model)</text>
+  
+  <line x1="700" y1="1170" x2="700" y2="1220" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Final linear projection -->
+  <rect x="400" y="1220" width="600" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+  <text x="700" y="1245" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Final Matrix Multiplication ⊗</text>
+  <text x="700" y="1270" font-size="16" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Output = Concat × W^O</text>
+  <text x="700" y="1293" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model) × (d_model × d_model)</text>
+  <text x="700" y="1312" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × d_model)</text>
+  
+  <line x1="700" y1="1320" x2="700" y2="1370" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Final output -->
+  <rect x="450" y="1370" width="500" height="90" fill="#27ae60" stroke="#229954" stroke-width="3" rx="5" filter="url(#shadow)"/>
+  <text x="700" y="1400" font-size="20" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Multi-Head Attention Output</text>
+  <text x="700" y="1428" font-size="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model)</text>
+  <text x="700" y="1450" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Combined representation from all attention heads</text>
+  
+  <!-- Formula box -->
+  <rect x="50" y="1490" width="850" height="80" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" rx="5"/>
+  <text x="475" y="1518" font-size="15" font-weight="bold" text-anchor="middle" fill="#2c3e50" font-family="Arial, sans-serif">
+    Complete Formula:
+  </text>
+  <text x="475" y="1543" font-size="14" text-anchor="middle" fill="#2c3e50" font-family="Arial, sans-serif">
+    MultiHead(Q, K, V) = Concat(head₁, ..., headₕ) W^O
+  </text>
+  <text x="475" y="1563" font-size="13" text-anchor="middle" fill="#34495e" font-family="Arial, sans-serif">
+    where headᵢ = Attention(QWⁱ_Q, KWⁱ_K, VWⁱ_V)
+  </text>
+  
+  <!-- Legend -->
+  <g transform="translate(950, 1490)">
+    <text x="0" y="0" font-size="14" font-weight="bold" fill="#2c3e50" font-family="Arial, sans-serif">Key Points:</text>
+    
+    <text x="0" y="22" font-size="11" fill="#2c3e50" font-family="Arial, sans-serif">• Each head learns different</text>
+    <text x="5" y="36" font-size="11" fill="#2c3e50" font-family="Arial, sans-serif">  attention patterns</text>
+    
+    <text x="0" y="52" font-size="11" fill="#2c3e50" font-family="Arial, sans-serif">• Parallel computation</text>
+    
+    <text x="0" y="68" font-size="11" fill="#2c3e50" font-family="Arial, sans-serif">• d_k = d_v = d_model / h</text>
+  </g>
+</svg>

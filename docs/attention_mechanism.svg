@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" style="background: #f8f9fa;">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2c3e50" />
+    </marker>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#2c3e50" font-family="Arial, sans-serif">
+    Self-Attention Mechanism: Matrix Multiplications
+  </text>
+  
+  <!-- Step 1: Input -->
+  <rect x="500" y="80" width="200" height="80" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="600" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Input X</text>
+  <text x="600" y="135" font-size="14" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model)</text>
+  
+  <!-- Arrows splitting to Q, K, V -->
+  <line x1="600" y1="160" x2="600" y2="200" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="200" x2="220" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="200" x2="600" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="200" x2="980" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 2: Matrix Multiplications for Q, K, V -->
+  <!-- Q projection -->
+  <g>
+    <rect x="70" y="240" width="300" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="220" y="265" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Matrix Multiplication ⊗</text>
+    <text x="220" y="290" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Q = X W^Q</text>
+    <text x="220" y="315" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model) × (d_model × d_k)</text>
+    <text x="220" y="333" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × d_k)</text>
+  </g>
+  
+  <!-- K projection -->
+  <g>
+    <rect x="450" y="240" width="300" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="600" y="265" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Matrix Multiplication ⊗</text>
+    <text x="600" y="290" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">K = X W^K</text>
+    <text x="600" y="315" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model) × (d_model × d_k)</text>
+    <text x="600" y="333" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × d_k)</text>
+  </g>
+  
+  <!-- V projection -->
+  <g>
+    <rect x="830" y="240" width="300" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="980" y="265" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Matrix Multiplication ⊗</text>
+    <text x="980" y="290" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">V = X W^V</text>
+    <text x="980" y="315" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_model) × (d_model × d_v)</text>
+    <text x="980" y="333" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × d_v)</text>
+  </g>
+  
+  <!-- Results Q, K, V -->
+  <rect x="150" y="370" width="140" height="60" fill="#9b59b6" stroke="#8e44ad" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="220" y="395" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Query (Q)</text>
+  <text x="220" y="418" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">seq_len × d_k</text>
+  
+  <rect x="530" y="370" width="140" height="60" fill="#9b59b6" stroke="#8e44ad" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="600" y="395" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Key (K)</text>
+  <text x="600" y="418" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">seq_len × d_k</text>
+  
+  <rect x="910" y="370" width="140" height="60" fill="#9b59b6" stroke="#8e44ad" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="980" y="395" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Value (V)</text>
+  <text x="980" y="418" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">seq_len × d_v</text>
+  
+  <!-- Arrows from Q and K to multiplication -->
+  <line x1="220" y1="430" x2="220" y2="490" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="430" x2="420" y2="490" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 3: Q × K^T -->
+  <g>
+    <rect x="150" y="490" width="400" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="350" y="515" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Matrix Multiplication ⊗</text>
+    <text x="350" y="540" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Scores = Q K^T</text>
+    <text x="350" y="565" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_k) × (d_k × seq_len)</text>
+    <text x="350" y="583" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × seq_len)</text>
+  </g>
+  
+  <line x1="350" y1="590" x2="350" y2="640" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 4: Scaling -->
+  <rect x="200" y="640" width="300" height="70" fill="#16a085" stroke="#138d75" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="350" y="665" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Scale by √d_k</text>
+  <text x="350" y="690" font-size="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Scaled Scores = Q K^T / √d_k</text>
+  
+  <line x1="350" y1="710" x2="350" y2="760" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 5: Optional Masking -->
+  <rect x="200" y="760" width="300" height="60" fill="#f39c12" stroke="#d68910" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="350" y="785" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Optional Masking</text>
+  <text x="350" y="808" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(e.g., causal mask for decoder)</text>
+  
+  <line x1="350" y1="820" x2="350" y2="870" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 6: Softmax -->
+  <rect x="200" y="870" width="300" height="70" fill="#16a085" stroke="#138d75" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="350" y="895" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Softmax Normalization</text>
+  <text x="350" y="920" font-size="15" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Weights = softmax(...)</text>
+  
+  <rect x="170" y="970" width="360" height="60" fill="#9b59b6" stroke="#8e44ad" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="350" y="995" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Weights</text>
+  <text x="350" y="1018" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × seq_len) - probability distributions</text>
+  
+  <!-- Arrows to final multiplication -->
+  <line x1="350" y1="1030" x2="350" y2="1090" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="980" y1="430" x2="980" y2="1050" stroke="#2c3e50" stroke-width="2"/>
+  <line x1="980" y1="1050" x2="600" y2="1090" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 7: Final multiplication with V -->
+  <g>
+    <rect x="200" y="1090" width="500" height="100" fill="#e74c3c" stroke="#c0392b" stroke-width="3" rx="5" filter="url(#shadow)"/>
+    <text x="450" y="1115" font-size="16" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Matrix Multiplication ⊗</text>
+    <text x="450" y="1140" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Output = Attention Weights × V</text>
+    <text x="450" y="1165" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × seq_len) × (seq_len × d_v)</text>
+    <text x="450" y="1183" font-size="13" text-anchor="middle" fill="white" font-family="Arial, sans-serif">→ (seq_len × d_v)</text>
+  </g>
+  
+  <line x1="450" y1="1190" x2="450" y2="1240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Final Output -->
+  <rect x="300" y="1240" width="300" height="80" fill="#27ae60" stroke="#229954" stroke-width="2" rx="5" filter="url(#shadow)"/>
+  <text x="450" y="1270" font-size="18" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Attention Output</text>
+  <text x="450" y="1295" font-size="14" text-anchor="middle" fill="white" font-family="Arial, sans-serif">(seq_len × d_v)</text>
+  <text x="450" y="1315" font-size="12" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Context-aware representations</text>
+  
+  <!-- Legend -->
+  <g transform="translate(800, 1100)">
+    <text x="0" y="0" font-size="16" font-weight="bold" fill="#2c3e50" font-family="Arial, sans-serif">Legend:</text>
+    
+    <rect x="0" y="10" width="30" height="20" fill="#e74c3c" stroke="#c0392b" stroke-width="2" rx="3"/>
+    <text x="40" y="25" font-size="13" fill="#2c3e50" font-family="Arial, sans-serif">Matrix Multiplication</text>
+    
+    <rect x="0" y="40" width="30" height="20" fill="#16a085" stroke="#138d75" stroke-width="2" rx="3"/>
+    <text x="40" y="55" font-size="13" fill="#2c3e50" font-family="Arial, sans-serif">Element-wise Operation</text>
+    
+    <rect x="0" y="70" width="30" height="20" fill="#9b59b6" stroke="#8e44ad" stroke-width="2" rx="3"/>
+    <text x="40" y="85" font-size="13" fill="#2c3e50" font-family="Arial, sans-serif">Intermediate Results</text>
+    
+    <rect x="0" y="100" width="30" height="20" fill="#3498db" stroke="#2980b9" stroke-width="2" rx="3"/>
+    <text x="40" y="115" font-size="13" fill="#2c3e50" font-family="Arial, sans-serif">Input Data</text>
+    
+    <rect x="0" y="130" width="30" height="20" fill="#27ae60" stroke="#229954" stroke-width="2" rx="3"/>
+    <text x="40" y="145" font-size="13" fill="#2c3e50" font-family="Arial, sans-serif">Final Output</text>
+  </g>
+  
+  <!-- Formula at bottom -->
+  <rect x="50" y="1340" width="700" height="50" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" rx="5"/>
+  <text x="400" y="1370" font-size="16" font-weight="bold" text-anchor="middle" fill="#2c3e50" font-family="Arial, sans-serif">
+    Complete Formula: Attention(Q, K, V) = softmax((Q K^T) / √d_k) V
+  </text>
+</svg>
