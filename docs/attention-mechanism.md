@@ -48,3 +48,9 @@ Allows the model to jointly attend to information from different representation 
 Improves expressivity and generalization.
 
 ![Multi-head Attention](multihead_attention.svg)
+
+# Why Transformers Excel
+
+- **Parallelization** — No sequential dependencies like RNNs → much faster training.
+- **Long-range dependencies** — Attention directly connects distant tokens (no vanishing gradients over distance).
+- **Dynamic weighting** — Context-dependent importance learned end-to-end.
