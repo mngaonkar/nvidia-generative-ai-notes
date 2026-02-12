@@ -20,5 +20,5 @@ Transformers process all tokens in parallel (unlike RNNs), so they have no inher
 Final embedding for transformer = token embedding + positional embedding
 
 # Source Code
-[PyTorch Embedding](../src/pytorch-embedding.py) \
-[Hugging Face Embedding](../src/huggingface-embedding.py)
+[PyTorch Embedding](https://github.com/mngaonkar/nvidia-generative-ai-notes/blob/main/src/pytorch-embedding.py) \
+[Hugging Face Embedding](https://github.com/mngaonkar/nvidia-generative-ai-notes/blob/main/src/huggingface-embedding.py)
