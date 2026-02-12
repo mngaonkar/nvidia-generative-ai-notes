@@ -4,7 +4,7 @@
 
 - [LLM Architecture](docs/llm-architecture.md)
 - [Attention Mechanism](docs/attention-mechanism.md)
-- [Attention Mechanism Variations](doc/attention-mechanism-advanced.md)
+- [Attention Mechanism Variations](docs/attention-mechanism-advanced.md)
 - [Tokenization](docs/tokenization.md)
 - [Embedding](docs/embedding.md)
 - [Sampling Techniques](docs/sampling-techniques.md)
