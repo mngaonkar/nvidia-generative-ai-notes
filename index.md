@@ -7,4 +7,5 @@
 - [Attention Mechanism Variations](doc/attention-mechanism-advanced.md)
 - [Tokenization](docs/tokenization.md)
 - [Embedding](docs/embedding.md)
+- [Sampling Techniques](docs/sampling-techniques.md)
 
