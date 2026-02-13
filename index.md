@@ -9,6 +9,9 @@
 - [Embedding](docs/embedding.md)
 - [Sampling Techniques](docs/sampling-techniques.md)
 
+## LLM Inference
+- [LLM Inference](docs/llm-inference.md)
+
 ## Prompt Engineering
 
 ## Data Preparation
