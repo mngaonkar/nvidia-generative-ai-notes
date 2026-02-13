@@ -3,6 +3,8 @@
 ## Two Phases of LLM Inference
 When you send a prompt to an LLM and it generates a response, inference happens in two distinct phases:
 
+![Inference Pipeline](inference-pipeline.png)
+
 ### Phase 1: Prefill (Prompt Processing)
 The prefill phase processes the input prompt in parallel.
 
@@ -39,6 +41,8 @@ Generating token 100:
 - Complexity: O(n) per token → O(n²) total for n tokens
 
 ## Memory Analysis
+![KV Cache Memory](kv-cache-memory.png)
+
 ### KV Cache Size Formula
 ```
 KV Cache Memory = 2 × num_layers × num_heads × seq_len × head_dim × bytes_per_element × batch_size
@@ -81,7 +85,6 @@ This is why KV cache memory is often the bottleneck for serving LLMs.
 ## The Memory Bandwidth Problem in Decode
 
 During decode, for each token:
-```
 1. Load model weights: ~140 GB (for 70B model in FP16)
 2. Load KV cache: ~1-10 GB (depends on sequence length)
 3. Compute: Very small amount of actual math

@@ -11,6 +11,7 @@
 
 ## LLM Inference
 - [LLM Inference](docs/llm-inference.md)
+- [LLM Inference Optimization](docs/llm-inference-optimization.md)
 
 ## Prompt Engineering
 
