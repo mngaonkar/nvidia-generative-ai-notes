@@ -17,6 +17,9 @@
 
 ## Data Preparation
 
+## Model Training Optimization
+- [Model Parallelization](docs/model-parallelization.md)
+
 ## Model Optimization
 
 ## Fine Tuning
