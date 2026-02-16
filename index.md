@@ -14,6 +14,7 @@
 - [LLM Inference Optimization](docs/llm-inference-optimization.md)
 
 ## Prompt Engineering
+- [LLM Reasoning](docs/llm-reasoning.md)
 
 ## Data Preparation
 
