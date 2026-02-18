@@ -12,6 +12,7 @@
 ## LLM Inference
 - [LLM Inference](docs/llm-inference.md)
 - [LLM Inference Optimization](docs/llm-inference-optimization.md)
+- [Sampling](docs/sampling.md)
 
 ## Prompt Engineering
 - [LLM Reasoning](docs/llm-reasoning.md)
