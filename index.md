@@ -18,6 +18,7 @@
 - [LLM Reasoning](docs/llm-reasoning.md)
 
 ## Data Preparation
+- [Nemo Data Curator](docs/nemo-curator.md)
 
 ## Model Training Optimization
 - [Model Parallelization](docs/model-parallelization.md)
@@ -25,14 +26,25 @@
 ## Model Optimization
 
 ## Fine Tuning
+- [Parameter Efficient Fine Tuning - PEFT](docs/peft.md)
 
 ## Model Evaluation
 
 ## GPU Acceleration and Optimization
 
 ## Model Deployment 
+[Nemo Triton](docs/nemo-triton.md)
 
 ## Monitoring
 
 ## Safe AI
+
+## Nemo 2.0
+- [Nemo 2.0](docs/nemo-2.0.md)
+
+## Nemo-Run
+
+## Megatron-Bridge
+
+
 
