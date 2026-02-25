@@ -41,10 +41,12 @@
 
 ## Nemo 2.0
 - [Nemo 2.0](docs/nemo-2.0.md)
+- [Torch Run vs Nemo Run](docs/torch-run.md)
 
 ## Nemo-Run
 
 ## Megatron-Bridge
+[Megatron Bridge](docs/megatron-bridge.md)
 
 
 

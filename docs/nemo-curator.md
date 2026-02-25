@@ -1,7 +1,14 @@
 # Nemo Curator
 NeMo Data Curator is an open-source, GPU-accelerated data curation pipeline developed by NVIDIA as part of the NeMo Framework. Its primary purpose is to help researchers and ML engineers prepare high-quality text datasets for pretraining large language models (LLMs). It is designed to handle datasets at massive scale — from hundreds of gigabytes to petabytes — with efficiency and reproducibility.
 
-## Key Components and Capabilities
+| Modality | Key Capabilities |
+|----------|------------------|
+| Text     | Deduplication • Classification • Quality Filtering • Language Detection |
+| Image    | Aesthetic Filtering • NSFW Detection • Embedding Generation • Deduplication |
+| Video    | Scene Detection • Clip Extraction • Motion Filtering • Deduplication |
+| Audio    | ASR Transcription • Quality Assessment • WER Filtering |
+
+## Text - Key Components and Capabilities
 
 ### Data Download & Format Handling
 The pipeline can ingest data from Common Crawl (WARC/WET files), HuggingFace datasets, local files, and custom sources. It handles multiple formats including JSON, JSONL, Parquet, and plain text, and converts them into a unified format for downstream processing.
