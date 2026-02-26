@@ -44,6 +44,7 @@
 - [Torch Run vs Nemo Run](docs/torch-run.md)
 
 ## Nemo-Run
+- [PyTorch Distributed Training](docs/pytorch-distributed-training.md)
 
 ## Megatron-Bridge
 [Megatron Bridge](docs/megatron-bridge.md)

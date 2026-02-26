@@ -44,7 +44,7 @@ Megatron Core handles:
 
 ## Scenario 2: You want to export that model to HuggingFace
 You use:
-- Megatron Bridge
+- Megatron Bridge \
 It:
 - Reassembles sharded weights
 - Converts layer names
