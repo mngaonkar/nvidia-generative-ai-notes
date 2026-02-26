@@ -46,3 +46,5 @@ Compute:
 Backprop on student only
 ```
 
+## Code
+[Knowledge Distillation with Gemma2](https://github.com/mngaonkar/nvidia-generative-ai-notes/tree/main/src/knowledge-distillation)
