@@ -24,9 +24,14 @@
 - [Model Parallelization](docs/model-parallelization.md)
 
 ## Model Optimization
+- [Quantization](docs/quantization.md)
+- [Layer Fusion](docs/layer-fusion.md)
+- [TensorRT](docs/tensorrt.md)
 
 ## Fine Tuning
 - [Parameter Efficient Fine Tuning - PEFT](docs/peft.md)
+- [Nemo Run Fine Tuning](docs/nemo-finetuning.md)
+- [Knowledge Distillation](docs/knoweldge-distillation.md)
 
 ## Model Evaluation
 
