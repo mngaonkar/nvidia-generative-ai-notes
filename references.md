@@ -46,6 +46,7 @@
 
 ## GPU Acceleration and Optimization
 - [GPU Hardware and Interconnects](docs/gpu-hardware.md)
+- [Performance Profiling](docs/performance-profiling.md)
 
 ## Model Deployment
 - [Nemo Triton](docs/nemo-triton.md)

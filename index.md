@@ -463,7 +463,96 @@ This is why 3D parallelism configurations use TP=8 within DGX nodes and PP acros
 
 ---
 
-## 16. Multimodal Models
+## 16. Performance Profiling and Debugging
+
+Training and deploying LLMs at scale requires understanding where compute is being spent and where bottlenecks exist. NVIDIA Nsight is a suite of profiling and debugging tools designed for GPU workloads, providing visibility into everything from system-level communication patterns to individual CUDA kernel performance.
+
+### The Nsight Toolkit
+
+[NVIDIA Nsight](docs/performance-profiling.md) comprises four main tools, each targeting different layers of the stack:
+
+| Tool | Purpose | Key Insights |
+|------|---------|-------------|
+| **Nsight Systems** | System-level performance tracing | CPU-GPU interaction, communication overlap, idle time |
+| **Nsight Compute** | CUDA kernel profiling | Tensor core utilization, memory bandwidth, occupancy |
+| **Nsight Graphics** | Graphics debugging | Rendering pipelines, shader performance |
+| **Nsight Eclipse/VS** | CUDA debugging in IDE | Breakpoints, memory inspection, runtime errors |
+
+### Nsight Systems: System-Level Analysis
+
+Nsight Systems traces the timeline of CPU and GPU activity, answering critical questions for distributed training:
+
+- Are GPUs idle while waiting for CPU launches?
+- Does NCCL communication overlap with computation?
+- Are there synchronization bottlenecks between pipeline stages?
+- How much time is spent in data loading vs. training?
+
+Visualize CUDA kernel launches, memory copies, NCCL collectives, and CPU threads in a unified timeline:
+
+```bash
+nsys profile -o training_profile python train.py
+```
+
+The resulting timeline shows whether your parallelism strategy is CPU-bound (too much launch overhead), communication-bound (NCCL dominates), or compute-bound (GPUs saturated with work). In well-tuned distributed training, you should see NCCL all-reduce operations overlapping with backward pass computation.
+
+### Nsight Compute: Kernel-Level Optimization
+
+Nsight Compute drills into individual CUDA kernels, providing hardware-level metrics:
+
+- **Tensor Core Utilization**: Are matrix operations using specialized hardware? (Should be >80% for attention and FFN layers)
+- **Memory Bandwidth**: Are you hitting DRAM limits? (Critical for KV cache operations during decode)
+- **SM Occupancy**: How many warps are active per streaming multiprocessor?
+- **Warp Efficiency**: Are threads diverging or stalling?
+
+```bash
+ncu --set full -o kernel_profile python train.py
+```
+
+Example output for an attention kernel:
+```
+Kernel: flash_attention_fwd
+SM Occupancy: 72%
+Tensor Core Utilization: 90%
+Memory Bandwidth: 63% of peak
+DRAM Throughput: 2.1 TB/s
+```
+
+Low tensor core utilization might indicate dimension alignment issues (use multiples of 8 for FP16, 16 for FP8). Low memory bandwidth with high occupancy suggests compute-bound workloads — exactly what you want for training. High memory bandwidth with low compute suggests memory-bound operations that might benefit from kernel fusion.
+
+### Profiling Distributed Training
+
+In multi-GPU setups with Megatron-Core or DeepSpeed, Nsight reveals:
+
+**Pipeline Parallelism Stalls**: Nsight Systems shows pipeline bubbles — idle time when GPUs wait for the previous stage. Interleaved schedules (1F1B) should minimize these bubbles.
+
+**NCCL Communication Overhead**: All-reduce, all-gather, and reduce-scatter operations should overlap with computation. If NCCL dominates the timeline, consider increasing gradient accumulation steps or adjusting TP/PP ratios.
+
+**Tensor Core Utilization Across GPUs**: Nsight Compute can profile specific ranks. Uneven utilization suggests load imbalance — possibly from uneven layer distribution in pipeline parallelism.
+
+**Kernel Fusion Efficiency**: Check if attention kernels use fused implementations (Flash Attention). Unfused attention shows as separate QK^T, softmax, and softmax*V kernels — a sign you're leaving performance on the table.
+
+### Integration with the NVIDIA Stack
+
+NeMo 2.0 and Megatron-Core are instrumented for profiling. PyTorch's profiler can trigger Nsight traces, and NeMo-Run can launch profiling jobs automatically:
+
+```python
+from nemo.utils import exp_manager
+
+exp_manager.configure_profiling(enabled=True, ranks=[0], 
+                                 start_step=10, end_step=20)
+```
+
+This captures a representative training window without the overhead of profiling the entire run. Analyze the profile to identify:
+- Whether your model is compute-bound or communication-bound
+- If activation checkpointing is reducing memory at acceptable performance cost
+- Whether data loading is causing GPU starvation
+- If gradient synchronization is properly overlapped with backward pass
+
+Performance optimization is iterative: profile, identify bottlenecks, adjust configuration (batch size, parallelism, sequence length), profile again. Nsight makes the invisible visible, transforming GPU utilization from guesswork into data-driven engineering.
+
+---
+
+## 17. Multimodal Models
 
 [Vision-Language Models (VLMs)](docs/multimodal.md) extend LLMs to process images alongside text:
 
@@ -570,6 +659,13 @@ The NVIDIA generative AI stack is best understood as a pipeline where each layer
 │  Applications                           │
 │  Direct inference │ RAG pipelines       │
 │  Multimodal systems │ AI agents         │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  Cross-Cutting: Performance Profiling   │
+│  Nsight Systems (system timeline)       │
+│  Nsight Compute (kernel analysis)       │
+│  → Identify bottlenecks at every stage  │
 └─────────────────────────────────────────┘
 ```
 
