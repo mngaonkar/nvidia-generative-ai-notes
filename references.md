@@ -22,6 +22,7 @@
 ## RAG
 - [Retrieval-Augmented Generation](docs/rag.md)
 - [Vector Database Embedding](docs/vector-db-embedding.md)
+- [Vector Database Reranking](docs/vector-db-reranking.md)
 
 ## Data Preparation
 - [Nemo Data Curator](docs/nemo-curator.md)

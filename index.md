@@ -417,7 +417,7 @@ User Query → Embed → Retrieve top-k from Vector DB → Augment Prompt → Ge
 
 **Vector Databases**: Store and index embeddings for fast approximate nearest neighbor (ANN) search. Options include Milvus (GPU-accelerated), Weaviate, Pinecone, FAISS, and pgvector.
 
-**Retrieval + Re-ranking**: Initial top-k retrieval via ANN search, refined with cross-encoder re-ranking for more accurate relevance scoring. Hybrid search (dense + BM25 sparse) catches both semantic matches and exact keyword hits.
+**Retrieval + Re-ranking**: Initial top-k retrieval via ANN search, refined with [cross-encoder re-ranking](docs/vector-db-reranking.md) for more accurate relevance scoring. Cross-encoders (like bge-reranker-large, Cohere Rerank) jointly encode query-document pairs to produce precise relevance scores, achieving NDCG@10 of 0.80-0.90+. Hybrid search (dense + BM25 sparse) catches both semantic matches and exact keyword hits.
 
 ### Advanced RAG
 
