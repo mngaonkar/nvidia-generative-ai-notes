@@ -14,7 +14,16 @@ Tokenization is the process of converting raw text into a sequence of tokens tha
 
 **WordPiece:** Similar to BPE but uses a different merging strategy based on likelihood. It is used in models like BERT.
 
-**SentencePiece:** A more flexible tokenizer that can handle both word and subword tokenization. It is used in models like T5.
+**SentencePiece:** A more flexible tokenizer that can handle both word and subword tokenization. It is used in models like T5. SentencePiece supports both BPE and Unigram language model tokenization.
 
 # Source Code
 [Sentence Piece Tokenizer](https://github.com/mngaonkar/nvidia-generative-ai-notes/blob/main/src/sentence-piece-tokenizer.py)
+
+# BPE vs Unigram
+
+| Feature | BPE | Unigram |
+|---------|-----|---------|
+| Approach | Bottom-up, greedy merging | Top-down, probabilistic pruning |
+| Deterministic? | Yes | No (probabilistic) |
+| Training style | Frequency-based merges | EM + likelihood maximization |
+| Best for | English, GPT-style models | Multilingual, morphologically rich languages |

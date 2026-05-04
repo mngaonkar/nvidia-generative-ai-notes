@@ -45,13 +45,19 @@ Maximize expected reward while staying close to the SFT policy:
 max_θ E_{x~D, y~π_θ}[r(x, y)] - β · KL(π_θ || π_SFT)
 ```
 
-PPO (Proximal Policy Optimization) implements this with clipped surrogate objectives:
+PPO (Proximal Policy Optimization) implements this with clipped surrogate objectives.
 
+**Loss Function:**
+PPO use KL divergence loss thats basically difference in probablities distribution of new and old policy multiplied by advantage estimate.
 ```
 L_PPO = E[min(ratio · A, clip(ratio, 1-ε, 1+ε) · A)]
 ```
 
-Where `ratio = π_θ(a|s) / π_old(a|s)` and `A` is the advantage estimate.
+Where:
+- `ratio = π_θ(a|s) / π_old(a|s)` is the probability ratio between new and old policy
+- `A` is the advantage estimate (how much better an action is than average)
+- `ε` is the clipping parameter (typically 0.2)
+- The clipping prevents large policy updates that could destabilize training
 
 **Components in memory during RLHF training:**
 1. Policy model (being trained)
@@ -78,9 +84,21 @@ r(x, y) = β · log(π_θ(y|x) / π_ref(y|x)) + C(x)
 
 Substituting back into the Bradley-Terry preference model:
 
+**Loss Function:**
+DPO uses standard binary cross-entropy loss on the preference data, with the logits derived from the policy and reference model probabilities:
+
 ```
 L_DPO = -E_{(x, y_w, y_l)}[log σ(β · (log π_θ(y_w|x)/π_ref(y_w|x) - log π_θ(y_l|x)/π_ref(y_l|x)))]
 ```
+
+Where:
+- `x` is the input prompt
+- `y_w` is the preferred (winning) response
+- `y_l` is the dispreferred (losing) response
+- `π_θ` is the policy being trained
+- `π_ref` is the reference policy (frozen SFT model)
+- `β` is the KL penalty coefficient
+- `σ` is the sigmoid function
 
 **Advantages over RLHF:**
 - No reward model to train or maintain

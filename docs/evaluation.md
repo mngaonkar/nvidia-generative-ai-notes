@@ -56,6 +56,80 @@ Where `n` = total samples, `c` = correct samples. Unbiased estimator of the prob
 
 - **Use case**: Code generation (HumanEval, MBPP)
 
+### Semantic Similarity Metrics
+
+Unlike lexical metrics (BLEU, ROUGE) that measure surface-level word overlap, semantic similarity metrics use embeddings to capture meaning. These are particularly valuable for tasks where paraphrasing is acceptable.
+
+#### BERTScore
+
+Uses contextual embeddings from pretrained models (BERT, RoBERTa) to compute token-level similarity:
+
+```
+Precision = (1/|x̂|) Σ_{x̂_i ∈ x̂} max_{x_j ∈ x} x̂_i^T x_j
+Recall = (1/|x|) Σ_{x_j ∈ x} max_{x̂_i ∈ x̂} x̂_i^T x_j
+F1 = 2 · (Precision · Recall) / (Precision + Recall)
+```
+
+- **Use case**: Summarization, translation, paraphrase detection
+- **Advantages**: Captures semantic equivalence, robust to lexical variation
+- **Implementation**: `bertscore` library
+
+#### BLEURT
+
+BERT-based learned metric trained on human ratings of translation quality:
+
+- Combines automatic metrics with semantic understanding
+- Trained on millions of human judgments
+- Strong correlation with human evaluation (ρ > 0.75 on WMT datasets)
+- **Use case**: Translation, text generation quality assessment
+
+#### Sentence-BERT Cosine Similarity
+
+Embeds both generated and reference text using sentence transformers, then computes cosine similarity:
+
+```
+similarity = cos(θ) = (A · B) / (||A|| ||B||)
+```
+
+Where A and B are sentence embeddings.
+
+- **Use case**: Semantic search, question answering, duplicate detection
+- **Advantages**: Fast, interpretable, no training needed
+- **Implementation**: `sentence-transformers` library
+
+#### MoverScore
+
+Based on Word Mover's Distance using contextualized embeddings:
+
+- Measures minimum "cost" to transform one text into another in embedding space
+- Uses optimal transport theory
+- More fine-grained than sentence-level cosine similarity
+- **Use case**: Summarization, style transfer evaluation
+
+#### BARTScore
+
+Uses pretrained seq2seq models to score generation quality:
+
+```
+BARTScore(x, y) = log P_BART(y | x)
+```
+
+Can be configured to measure:
+- **Faithfulness**: P(source | generation)
+- **Precision**: P(reference | generation)
+- **Recall**: P(generation | reference)
+
+- **Use case**: Summarization factual consistency, dialogue coherence
+- **Advantages**: Unified framework for multiple quality dimensions
+
+### When to Use Semantic vs. Lexical Metrics
+
+| Metric Type | Best For | Limitations |
+|-------------|----------|-------------|
+| **Lexical (BLEU, ROUGE)** | Translation (when reference wording is canonical), extractive tasks | Misses paraphrases, penalizes valid variations |
+| **Semantic (BERTScore, BLEURT)** | Summarization, paraphrasing, open-ended generation | Computationally expensive, may miss factual errors |
+| **Both** | Comprehensive evaluation | Use lexical for precision, semantic for recall/fluency |
+
 ## Benchmark Suites
 
 | Benchmark | Measures | Format | Tasks/Subjects |
