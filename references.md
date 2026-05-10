@@ -48,6 +48,7 @@
 ## GPU Acceleration and Optimization
 - [GPU Hardware and Interconnects](docs/gpu-hardware.md)
 - [Performance Profiling](docs/performance-profiling.md)
+- [Performance Benchmark with NCCL](docs/performance-benchmark-nccl.md)
 
 ## Model Deployment
 - [Nemo Triton](docs/nemo-triton.md)

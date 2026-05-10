@@ -161,7 +161,7 @@ Zero Redundancy Optimizer eliminates memory redundancy across data-parallel rank
 Production training combines DP x TP x PP: tensor parallelism within nodes (over NVLink), pipeline parallelism across nodes (over InfiniBand), and data parallelism across replica groups. This is how models like LLaMA 70B are actually trained.
 
 ### Communication Infrastructure
-All of this depends on [NCCL](docs/pytorch-distributed-training.md) (NVIDIA Collective Communications Library), which provides optimized primitives — AllReduce, AllGather, ReduceScatter, Broadcast — over NVLink, PCIe, InfiniBand, and TCP. PyTorch's `distributed.init_process_group("nccl")` initializes this layer, while [`torchrun`](docs/torch-run.md) handles rank assignment and rendezvous coordination.
+All of this depends on [NCCL](docs/pytorch-distributed-training.md) (NVIDIA Collective Communications Library), which provides optimized primitives — AllReduce, AllGather, ReduceScatter, Broadcast — over NVLink, PCIe, InfiniBand, and TCP. PyTorch's `distributed.init_process_group("nccl")` initializes this layer, while [`torchrun`](docs/torch-run.md) handles rank assignment and rendezvous coordination. For a concrete NCCL all-reduce benchmark setup and `mpirun` command breakdown, see the [performance benchmark with NCCL](docs/performance-benchmark-nccl.md).
 
 ---
 

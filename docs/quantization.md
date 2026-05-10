@@ -45,7 +45,8 @@ x̂ = (Q(x) - zero_point) × scale
 
 ## Post-Training Quantization (PTQ)
 
-Quantize a trained model without retraining. Requires a small calibration dataset (128-512 samples) to estimate activation ranges.
+Post-Training Quantization (PTQ) is a technique to reduce the size and inference latency of a trained deep learning model by converting its weights and activations from 32-bit floating point (FP32) to lower precision formats like INT8, INT16, or FP16, after the model has been fully trained.
+Requires a small calibration dataset (128-512 samples) to estimate activation ranges.
 
 **Workflow:**
 1. Run calibration data through the model
@@ -75,24 +76,49 @@ Backward: Straight-Through Estimator (STE) — gradients pass through unchanged
 
 **Solution:** Migrate quantization difficulty from activations to weights:
 
-```
-Y = X · W = (X · diag(s)^-1) · (diag(s) · W) = X̂ · Ŵ
-```
+>"Smooth" the activation outliers by multiplying them with a scaling factor, and compensate by dividing the weights by the same factor.
 
-Where `s` is a per-channel smoothing factor: `s_j = max(|X_j|)^α / max(|W_j|)^(1-α)`, with α ∈ [0, 1].
+**Method:**
+1. Calculate Scaling Factor per Channel.
+   For each channel, compute a scaling factor based on the maximum absolute value of activations and weights.
+Formula (simplified):
 
-After smoothing, both activations and weights are within quantizable ranges. Typical α = 0.5.
+$$s = \frac{\max(|\text{activation}|)}{\max(|\text{weight}|)^\alpha}$$
 
-**Result:** W8A8 (8-bit weights, 8-bit activations) with near-lossless accuracy.
+where $\alpha$ is a hyperparameter (usually 0.5).
+
+2. Apply Smoothing
+   - Multiply activations by $s$
+   - Divide weights by $s$
+  
+  This makes the activations smoother (reduces outliers) while making the weights slightly harder to quantize.
+
+3. Quantize
+   - Now quantize both the smoothed activations and the adjusted weights to INT8.
+
+4. Inference
+   - During inference, the scaling is absorbed into the weights, so there is almost zero extra computational overhead.
 
 ## AWQ (Activation-Aware Weight Quantization)
 
 **Key insight:** Not all weight channels are equally important. Channels corresponding to large activation magnitudes have disproportionate impact on output quality.
 
 **Method:**
-1. Identify salient weight channels based on activation magnitudes
-2. Apply per-channel scaling to protect these channels before quantization
-3. Search for optimal scaling factors that minimize quantization error
+### Activation-Aware Sensitivity Measurement
+1. AWQ passes a small calibration dataset through the model.
+2. For each weight, it measures how much the output activation changes if that weight is slightly perturbed.
+3. Weights that cause large activation changes are marked as more sensitive (important).
+
+### Per-Channel Scaling
+1. AWQ computes a scaling factor for each output channel based on the sensitivity.
+2. More sensitive channels get larger scaling factors → they get quantized with higher precision.
+
+### Weight Quantization
+1. The scaled weights are quantized to low precision (INT4, INT8, etc.).
+2. Because sensitive weights are protected, the overall accuracy drop is minimized.
+
+### Inference
+During inference, the scaling is absorbed into the weights → almost zero runtime overhead.
 
 ```
 s* = argmin_s ||Q(W · diag(s)) · diag(s)^-1 · X - W · X||
@@ -115,6 +141,26 @@ w_q = argmin_q (w - q)² / H_qq^-1
 3. Update remaining unquantized weights to compensate for quantization error
 
 **Result:** INT4/INT3 with very low accuracy loss. Slower calibration than AWQ but sometimes better accuracy.
+
+## K Quant
+K-quant is a modern, advanced quantization method developed by the llama.cpp team.
+
+Traditional quantization (like Q4_0) treats all weights the same. K-quants are much smarter because they use multiple levels of quantization within the same tensor:
+- They divide the weights into blocks.
+- Within each block, they use different precision for different parts of the data.
+- They store super-block metadata to better represent the range of values.
+
+### Main K-Quant Types
+
+| Quant Type | Approx. Bits | Quality | Model Size | Speed | Recommendation |
+|------------|--------------|---------|------------|-------|----------------|
+| Q4_K_S | ~4.0 bits | Good | Small | Very Fast | Good for low memory |
+| Q4_K_M | ~4.5 bits | Very Good | Medium | Fast | Most Popular |
+| Q4_K_L | ~4.8 bits | Excellent | Larger | Fast | When you want max quality at 4-bit |
+| Q5_K_S | ~5.0 bits | Very Good | Medium | Fast | - |
+| Q5_K_M | ~5.5 bits | Excellent | Larger | Fast | Great balance |
+| Q6_K | ~6.5 bits | Near original | Large | Medium | Very high quality |
+| Q8_0 | 8.0 bits | Almost lossless | Very Large | Slower | Highest quality |
 
 ## FP8 with Transformer Engine
 
