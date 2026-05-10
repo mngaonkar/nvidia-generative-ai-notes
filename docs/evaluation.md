@@ -2,6 +2,13 @@
 
 Systematic evaluation is essential at every stage: after pretraining (does the model understand language?), after fine-tuning (does it follow instructions?), after alignment (is it safe and helpful?), and after quantization (did we lose accuracy?).
 
+## Statistical vs Model-Based Scorers (Brief)
+
+- **Statistical scorers** compare outputs to references using deterministic formulas (e.g., BLEU, ROUGE, Exact Match, F1, perplexity). They are fast, cheap, and reproducible, but can miss semantic quality and nuanced reasoning.
+- **Model-based scorers** use another model (often an LLM judge) to grade quality dimensions like helpfulness, coherence, reasoning quality, and safety. They capture nuance better, but can be expensive, less stable, and sensitive to judge bias.
+
+In practice, strong evaluation mixes both: use statistical metrics for broad, repeatable tracking and model-based scoring for qualitative or instruction-following behavior.
+
 ## Automatic Metrics
 
 ### Perplexity
@@ -37,6 +44,22 @@ Measures recall of n-grams from reference text:
 - **ROUGE-2**: Bigram overlap
 - **ROUGE-L**: Longest common subsequence
 - **Use case**: Summarization quality
+
+### BERTScore
+
+Measures semantic similarity using contextual embeddings instead of exact n-gram overlap. It matches each candidate token to the most similar reference token in embedding space and reports precision, recall, and F1.
+
+Intuition:
+
+```
+BERTScore-F1 ≈ 2 · (P · R) / (P + R)
+```
+
+Where token matches are computed with cosine similarity between contextual embeddings (from a pretrained encoder such as BERT/RoBERTa).
+
+- **Use case**: Summarization, translation, and generation tasks where paraphrases should still score well
+- **Advantages**: Better semantic sensitivity than BLEU/ROUGE for meaning-preserving rewrites
+- **Limitations**: Depends on embedding model choice, can still miss factual errors/hallucinations, and is slower than lexical metrics
 
 ### Exact Match and F1
 
